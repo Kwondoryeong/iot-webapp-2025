@@ -546,7 +546,7 @@
 
     <img src="./image/web0013.png" width="600">
 
-## 5일차
+## 6일차
 
 ### ASP.NET Core
 
