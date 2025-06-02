@@ -547,11 +547,16 @@
 
     <img src="./image/web0013.png" width="600">
 
+<<<<<<< Updated upstream
 ## 6일차
+=======
+## 5일차
+>>>>>>> Stashed changes
 
 ### ASP.NET Core
 
 #### ASP.NET Core MVC - Kelly Portfolio 디자인 클로닝(계속)
+<<<<<<< Updated upstream
 1. Properties> launchSettgins.json
     - hotReloadEnabled 설정키 추가
 2. _Layout.cshtml 작업 계속
@@ -743,3 +748,6 @@
 - 뉴스, 게시판 완료
 - 한글화
 - 마무리
+=======
+1. to be continued...
+>>>>>>> Stashed changes
