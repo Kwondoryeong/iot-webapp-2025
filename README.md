@@ -721,7 +721,25 @@
     <li><a asp-controller="Home" asp-action="Index" class="@ActiveClass("Home", "Index")">Home</a></li>
     ```
 
+## 8일차
+
 #### ASP.NET Core MVC - Kelly Portfolio 디자인 클로닝(계속)
+1. 뉴스 게시글 수정
+    - 리스트 CSS 작성(제목줄 스타일, 행별 배경색, 마우스오버시 배경색변경)
+    - Model에서 Validation Check 에러나는 타입은 string밖에 없음
+    - public string Writer -> `public string? Writer`로 변경!!
+    - Create.cshtml과 Edit.cshtml에서 필요없는 `입력값 필드`(Writer, PostDate, ReadCnt) 삭제
+    - 뷰화면 스타일 조정(container 넓이) 맞추기
+    - Create, Edit `포스트 메서드 수정`
+    - Delete는 간단함
+    - 뉴스 조회건을 최신건을 위로 정렬
+2. 게시글 조회수 올리기
+3. 토스트 메시지
+    - 컨트롤러에서 뷰에 보이고 싶은 데이터를 전달하는 변수
+        - ViewData, ViewBag, TempData 등
+    - Partial View 생성
+4. HTML 에디터 추가
+
 - 뉴스, 게시판 완료
 - 한글화
 - 마무리
