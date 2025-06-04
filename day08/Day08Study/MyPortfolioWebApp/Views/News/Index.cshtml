@@ -4,23 +4,27 @@
     // ViewData["Title"] = "Index";
 
 }
+@{
+    // 컨트롤러 변수값이 바로 사용할 수 없음
+    // ViewBag, ViewData, TempData로 전달
+    var startPage = ViewBag.StartPage;
+    var endPage = ViewBag.EndPage;
+    var page = ViewBag.Page;
+    var totalPage = ViewBag.TotalPage;
+}
 
-
+<partial name="_Notification" />
 
 <section id="news" class="section">
     <div class="container section-title" data-aos="fade-up">
         <h2>News</h2>
-        <p>Lorem ipsum dalat sit amet.</p>
-        @if (TempData["success"] != null)
-        {
-            <h3 style="color:limegreen;">@TempData["success"]</h3>
-        }
+        <p>Lorem ipsum dalat sit amet.</p>        
     </div>
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <p>
             <a asp-controller="News" asp-action="Create"
-               class="btn btn-sm btn-success btn-kelly">Create</a>
+            class="btn btn-sm btn-success btn-kelly">Create</a>
         </p>
         <table class="board-table">
             <thead>
@@ -65,6 +69,24 @@
                 }
             </tbody>
         </table>
+
+        <div class="out">
+            <div class="in">
+                <div>
+                    @for (var pcount = startPage; pcount <= endPage; pcount++)
+                    {
+                        if (pcount == page)                       
+                        {
+                            <a href="?page=@pcount" class="btn active">@pcount</a>
+                        }
+                        else 
+                        {
+                            <a href="?page=@pcount" class="btn">@pcount</a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
     </div>
     
 

@@ -14,16 +14,49 @@ namespace MyPortfolioWebApp.Controllers
         }
 
         // GET: News . http://locahost:5234/News/Index 요청했음
-        public async Task<IActionResult> Index()
+        // param int page는 처음 게시판은 무조건 1페이지부터 시작
+        public async Task<IActionResult> Index(int page = 1)
         {
             // 뷰쪽에 보내고 싶은 데이터
             //ViewData["Key"] //ViewBag.Title //TempData["Key"]
-            ViewData["Title"] = "타이틀 바꾸고 싶어!!";
+            ViewData["Title"] = "서버에서 변경가능";
             // _context News
             // SELECT * FROM News.
-            return View(await _context.News
-                                   .OrderByDescending(o => o.PostDate)
-                                   .ToListAsync()); // 뷰화면에 데이터를 가지고감
+            //return View(await _context.News
+            //                       .OrderByDescending(o => o.PostDate)
+            //                       .ToListAsync()); // 뷰화면에 데이터를 가지고감
+            // 쿼리로 처리가능
+            //var news = await _context.News.FromSql($@"SELECT Id, Writer, Title, Description, PostDate, ReadCount
+            //                                            FROM News")
+            //                        .OrderByDescending(o => o.PostDate)
+            //                        .ToListAsync();
+            //return View(news);
+
+            // 최종단계
+            var totalCount = _context.News.Count();
+            var countList = 10; // 한페이지에 기본 뉴스갯수 10개
+            var totalPage = totalCount / countList;
+            if (totalCount % countList > 0) totalPage++;  // 남은 게시글이 있으면 페이지수 증가
+            if (totalPage < page) page = totalPage;
+
+            var countPage = 10; // 페이지를 표시할 최대페이지개수, 10개
+            var startPage = ((page - 1) / countPage) * countPage + 1;
+            var endPage = startPage + countPage - 1;
+            if (totalPage < endPage) endPage = totalPage;
+            // 나타낼 페이수가 10이 안되면 마지막페이지까지 글이 12개면  1, 2 페이지만 표시
+
+            var startCount = ((page - 1) * countPage) + 1; // 2페이지의 경우 11
+            var endCount = startCount + countList - 1; // 2페이지의 경우 20
+
+            // View로 넘기는 데이터, 페이징 숫자컨트롤 사용
+            ViewBag.StartPage = startPage;
+            ViewBag.EndPage = endPage;
+            ViewBag.Page = page;
+            ViewBag.TotalPage = totalPage;
+
+            // 저장프로시저 호출
+            var news = await _context.News.FromSql($"CALL New_PagingBoard({startCount}, {endCount})").ToListAsync();
+            return View(news);
         }
 
         // GET: News/Details/5

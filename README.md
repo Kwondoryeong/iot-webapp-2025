@@ -384,7 +384,7 @@
 
     https://github.com/user-attachments/assets/d205515e-3edc-4a2a-a538-a08137dad2b1
 
-### 5일차
+## 5일차
 
 ### 웹개발 기술 용어
 - SPA : Single Page Applicaiton. 페이지를 이동해도 새로고침 없이 한페이지에서 작동하는 웹
@@ -547,16 +547,11 @@
 
     <img src="./image/web0013.png" width="600">
 
-<<<<<<< Updated upstream
 ## 6일차
-=======
-## 5일차
->>>>>>> Stashed changes
 
 ### ASP.NET Core
 
 #### ASP.NET Core MVC - Kelly Portfolio 디자인 클로닝(계속)
-<<<<<<< Updated upstream
 1. Properties> launchSettgins.json
     - hotReloadEnabled 설정키 추가
 2. _Layout.cshtml 작업 계속
@@ -743,11 +738,103 @@
     - 컨트롤러에서 뷰에 보이고 싶은 데이터를 전달하는 변수
         - ViewData, ViewBag, TempData 등
     - Partial View 생성
-4. HTML 에디터 추가
 
-- 뉴스, 게시판 완료
-- 한글화
-- 마무리
-=======
-1. to be continued...
->>>>>>> Stashed changes
+        <img src="./image/web0019.png" width="500">
+
+        - View.cshtml -> _Notification.cshtml 변경
+        - Index.cshtml에 TempData로 집어넣은 부분을 이동
+        - Index에 `<partial name="_Notification">` 추가
+    - Toastr 클라이언트 라이브러리 사용
+        - Github 설명대로 css, js 링크 추가
+    - _Notification.cshtml 코드 수정
+
+4. HTML 에디터 추가
+    - 본문 내용을 HTML화 해서 괜찮은 디자인의 컨텐츠가 되도록 만드는 컴포넌트
+    - 유사한 라이브러리 : Trumbowyg, CKEditor 5(기능최대), summernote, TinyMCE, Quill(단순)
+    - Trumbowyg 클라이언트 라이브러리 설치(NuGet패키지와 차이있음)
+    - wwwroot > 마우스오른쪽 > 추가 > 클라이언트 쪽 라이브러리
+    - Trumbowyg 검색 후 설치
+
+        <img src="./image/web0020.png" width="500">
+
+    - _Layout.cshtml에 css, js 링크 추가
+    - Create.cshtml, Edit.cshtml `<input asp-for="Descrption">` -> `<textarea>` 로 변경
+    - Site.js 마지막에 trumbowyg 초기화 함수 추가작성
+    - 뷰어 라이브러리 : Westwind.AspNetCore.Markdown NuGet패키지 라이브러리
+    - Detail.cshtml, Delete.cshtml에 라이브러리 using Westwind.AspNetCore.Markdown 추가
+    - Description 태그 부분 수정 @Markdown.ParseHtmlString(Model.Description)
+
+        <img src="./image/web0021.png" width="600">
+
+5. EntityFramework로 자동 생성된 테이블 컬럼타입변경
+    - LONGTEXT로 타입이 지정된 컬럼은 사용여부에 따라 VARCHAR(num)로 변경
+
+        <img src="./image/web0022.png" width="600">
+
+5. 페이징
+    - 웹페이지 게시판에서 가장 중요한 기능. 가장 일반적인 데이터 로딩 방식
+    - 한 페이지에 대량의 데이터를 부르면 성능문제 발생
+    - EntityFramework에서 쿼리, 저장프로시저 사용가능
+
+        ```sql
+        CREATE PROCEDURE `New_PagingBoard`(
+            startCount int,
+            endCount int    
+        )
+        BEGIN
+            -- 제일 중요한 값은 ROW_NUMBER()
+            SELECT * 
+            FROM (
+            SELECT ROW_NUMBER() OVER (ORDER BY Id DESC) AS rowNum,
+                    Id, Writer, Title, Description, PostDate, ReadCount
+                FROM News
+            ) AS b
+            WHERE b.rowNum BETWEEN startCount AND endCount;
+
+        END
+        
+        ```
+
+    - 저장프로시저는 CALL New_PagingBoard(1, 10), CALL New_PagingBoard(11, 20) 식으로 호출
+    - NewsController Index() 메서드 완전 수정!
+    - index.cshtml에 Viewbag 영역 복사
+
+        ```html
+        @{
+            // 컨트롤러 변수값이 바로 사용할 수 없음
+            // ViewBag, ViewData, TempData로 전달
+            var startPage = ViewBag.StartPage;
+            var endPage = ViewBag.EndPage;
+            var page = ViewBag.Page;
+            var totalPage = ViewBag.TotalPage;
+        }
+        ```
+
+    - index.cshtml 게시판 영역 아래에 페이징부분 작성
+
+        <img src="./image/web0023.png" width="600">
+
+## 9일차 (25.06.04.)
+
+### ASP.NET Core 실습
+
+#### ASP.NET Core MVC - Kelly Portfolio 클로닝 (계속)
+1. 뉴스페이징 완료
+    - 페이징 첫페이지, 이전페이지, 다음페이지, 마지막페이지 링크 추가
+    - Bootstrap 디자인 적용
+2. 검색
+    - 검색 폼 추가
+    - 컨트롤러 Index() 메서드에 검색어 파라미터 추가
+    - 쿼리 변경(카운트 쿼리, 저장프로시저 검색부분)
+    - 페이징 부분 GET메서드에 검색어 파라미터추가
+
+        <img src="./image/web0024.png" width="600">
+
+3. 한글화
+4. 정적페이지 DB연동
+5. 게시판 준비
+6. 마무리
+
+### ASP.NET Core API서버
+
+### AWS 클라우드 업로드
