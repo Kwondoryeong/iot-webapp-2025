@@ -12,8 +12,8 @@ using MyPortfolioWebApp.Models;
 namespace MyPortfolioWebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250605010339_InitIdentityAgain2")]
-    partial class InitIdentityAgain2
+    [Migration("20250604080142_InitialIdentity")]
+    partial class InitialIdentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -268,7 +268,7 @@ namespace MyPortfolioWebApp.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("WebSite")
+                    b.Property<string>("Website")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -315,7 +315,7 @@ namespace MyPortfolioWebApp.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Langauge")
+                    b.Property<string>("Language")
                         .IsRequired()
                         .HasColumnType("longtext");
 

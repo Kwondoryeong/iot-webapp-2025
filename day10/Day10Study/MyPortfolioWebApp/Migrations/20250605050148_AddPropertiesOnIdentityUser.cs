@@ -10,6 +10,11 @@ namespace MyPortfolioWebApp.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "Language",
+                table: "Skill",
+                newName: "Language");
+
             migrationBuilder.AddColumn<string>(
                 name: "City",
                 table: "AspNetUsers",
@@ -46,6 +51,11 @@ namespace MyPortfolioWebApp.Migrations
             migrationBuilder.DropColumn(
                 name: "Mobile",
                 table: "AspNetUsers");
+
+            migrationBuilder.RenameColumn(
+                name: "Language",
+                table: "Skill",
+                newName: "Language");
         }
     }
 }
