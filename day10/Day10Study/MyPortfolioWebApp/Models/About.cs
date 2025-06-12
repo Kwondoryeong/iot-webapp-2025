@@ -33,4 +33,3 @@ namespace MyPortfolioWebApp.Models
         public string PhotoUrl { get; set; }
     }
 }
-

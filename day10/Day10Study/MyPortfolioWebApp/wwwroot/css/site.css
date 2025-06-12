@@ -1,4 +1,4 @@
-/**
+ï»¿/**
 * Template Name: Kelly
 * Template URL: https://bootstrapmade.com/kelly-free-bootstrap-cv-resume-html-template/
 * Updated: Aug 07 2024 with Bootstrap v5.3.3
@@ -1365,13 +1365,13 @@ section,
         background: color-mix(in srgb, var(--accent-color), transparent 25%);
     }
 
-/* ÀÌ¿Ü Ä¿½ºÅÒÇÏ°í ½ÍÀº ½ºÅ¸ÀÏÀÌ ÀÖÀ¸¸é ¾Æ·¡ ÀÛ¼ºÇÒ °Í */
+/* ì´ì™¸ ì»¤ìŠ¤í…€í•˜ê³  ì‹¶ì€ ìŠ¤íƒ€ì¼ì´ ìˆìœ¼ë©´ ì•„ë˜ ì‘ì„±í•  ê²ƒ */
 /*
     board-table
 */
 .board-table {
     width: 100%;
-    color: #333333;  /* #333°ú µ¿ÀÏ */
+    color: #333333;  /* #333ê³¼ ë™ì¼ */
     font-size: 14px;
     background-color: #f5f5f5;
     border-collapse: collapse;
@@ -1381,7 +1381,7 @@ section,
     padding: 0.5rem 0.5rem;
 }
 
-/* board-table Çì´õºÎºĞ */
+/* board-table í—¤ë”ë¶€ë¶„ */
     .board-table thead tr {
         background-color: #67C5B9;
         color: #FFFFFF;
@@ -1389,20 +1389,20 @@ section,
         text-align: center;
     }
 
-    /* º»¹® rowÁß È¦¼ö(odd)´Â Èò»ö¹è°æ */
+    /* ë³¸ë¬¸ rowì¤‘ í™€ìˆ˜(odd)ëŠ” í°ìƒ‰ë°°ê²½ */
     .board-table tbody tr:nth-child(odd) {
         background-color: #FFFFFF; 
     }
 
-    /* º»¹® rowÁß Â¦¼ö(even)´Â ¿¬ÇÑÈ¸»ö¹è°æ */
+    /* ë³¸ë¬¸ rowì¤‘ ì§ìˆ˜(even)ëŠ” ì—°í•œíšŒìƒ‰ë°°ê²½ */
     .board-table tbody tr:nth-child(even) {
         background-color: #F9F9F9;
     }
 
-    /* ¸¶¿ì½º¿À¹ö È¿°ú */
+    /* ë§ˆìš°ìŠ¤ì˜¤ë²„ íš¨ê³¼ */
     .board-table tbody tr:hover {
         background-color: #E0F7FA;
-        transition: background-color 0.2s ease-in-out; /* ¹è°æ»ö ¾Ö´Ï¸ŞÀÌ¼Ç È¿°ú */
+        transition: background-color 0.2s ease-in-out; /* ë°°ê²½ìƒ‰ ì• ë‹ˆë©”ì´ì…˜ íš¨ê³¼ */
     }
 
     .board-table tbody tr:hover a:hover {
@@ -1413,7 +1413,7 @@ section,
         text-align: center;
     }
 
-/* btn-kelly Å¬·¡½º. »ö»óº¯°æ ºÎÆ®½ºÆ®·¦ ¹öÆ°¿¡ µğÀÚÀÎÃß°¡Àû¿ë */
+/* btn-kelly í´ë˜ìŠ¤. ìƒ‰ìƒë³€ê²½ ë¶€íŠ¸ìŠ¤íŠ¸ë© ë²„íŠ¼ì— ë””ìì¸ì¶”ê°€ì ìš© */
 .btn-kelly {
     background-color: #67C7BB;
     color: white;
@@ -1424,18 +1424,16 @@ section,
     background-color: #33AE9F;
     color: white;
     border-style: none;
+
 }
 
-/* ·Î±×¾Æ¿ô ¹öÆ° ½ºÅ¸ÀÏº¯°æ */
+/* ë¡œê·¸ì•„ì›ƒ í¼ ìŠ¤íƒ€ì¼ë³€ê²½ & ë¡œê·¸ì•„ì›ƒ ë²„íŠ¼ */
 .link-kelly {
     background: none;
     border: none;
     padding: 0;
     margin: 0;
 }
-
-    .link-kelly i:hover {
+    .link-kelly:hover {
         color: #34B5A5;
     }
-
-

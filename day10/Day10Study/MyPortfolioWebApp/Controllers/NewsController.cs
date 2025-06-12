@@ -90,7 +90,6 @@ namespace MyPortfolioWebApp.Controllers
         }
 
         // GET: http://localhost:5234/News/Create GET method로 호출!!
-        //[HttpGet] 가 default
         public IActionResult Create()
         {
             var news = new News

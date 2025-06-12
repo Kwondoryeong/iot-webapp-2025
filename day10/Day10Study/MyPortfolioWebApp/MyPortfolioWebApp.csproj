@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BackupModels\**" />
+    <Content Remove="BackupModels\**" />
+    <EmbeddedResource Remove="BackupModels\**" />
+    <None Remove="BackupModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.16" />
@@ -20,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BackupModels\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

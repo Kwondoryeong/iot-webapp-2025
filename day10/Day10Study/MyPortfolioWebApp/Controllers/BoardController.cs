@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyPortfolioWebApp.Models;
 
@@ -19,11 +14,44 @@ namespace MyPortfolioWebApp.Controllers
         }
 
         // GET: Board
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, string search = "")
         {
-            
-            return View(await _context.Board.ToListAsync());
+            var totalCount = _context.Board
+                .Where(b => EF.Functions.Like(b.Title, $"%{search}%"))
+                .Count();
+
+            var countList = 10;
+            var totalPage = (int)Math.Ceiling(totalCount / (double)countList);
+
+            // 예외 처리: 게시글이 없을 경우
+            if (totalPage == 0) totalPage = 1;
+
+            if (page > totalPage) page = totalPage;
+            if (page < 1) page = 1;
+
+            var countPage = 10;
+            var startPage = ((page - 1) / countPage) * countPage + 1;
+            var endPage = startPage + countPage - 1;
+            if (totalPage < endPage) endPage = totalPage;
+
+            var skip = (page - 1) * countList;
+
+            ViewBag.StartPage = startPage;
+            ViewBag.EndPage = endPage;
+            ViewBag.Page = page;
+            ViewBag.TotalPage = totalPage;
+            ViewBag.Search = search;
+
+            var boardList = await _context.Board
+                .Where(b => EF.Functions.Like(b.Title, $"%{search}%"))
+                .OrderByDescending(b => b.PostDate)
+                .Skip(skip)
+                .Take(countList)
+                .ToListAsync();
+
+            return View(boardList);
         }
+
 
         // GET: Board/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -33,12 +61,15 @@ namespace MyPortfolioWebApp.Controllers
                 return NotFound();
             }
 
-            var board = await _context.Board
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var board = await _context.Board.FirstOrDefaultAsync(m => m.Id == id);
             if (board == null)
             {
                 return NotFound();
             }
+
+            board.ReadCount++;
+            _context.Board.Update(board);
+            await _context.SaveChangesAsync();
 
             return View(board);
         }
@@ -50,8 +81,6 @@ namespace MyPortfolioWebApp.Controllers
         }
 
         // POST: Board/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Email,Writer,Title,Contents,PostDate,ReadCount")] Board board)
@@ -82,8 +111,6 @@ namespace MyPortfolioWebApp.Controllers
         }
 
         // POST: Board/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Writer,Title,Contents,PostDate,ReadCount")] Board board)
@@ -124,8 +151,7 @@ namespace MyPortfolioWebApp.Controllers
                 return NotFound();
             }
 
-            var board = await _context.Board
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var board = await _context.Board.FirstOrDefaultAsync(m => m.Id == id);
             if (board == null)
             {
                 return NotFound();

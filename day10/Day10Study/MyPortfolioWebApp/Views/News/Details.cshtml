@@ -1,5 +1,5 @@
 ﻿@inject SignInManager<CustomUser> SignInManager
-@inject UserManager<CustomUser> UserManger
+@inject UserManager<CustomUser> UserManager
 @using Westwind.AspNetCore.Markdown
 @model MyPortfolioWebApp.Models.News
 
@@ -52,11 +52,11 @@
             </dl>
         </div>
         <div>
-            @if (SignInManager.IsSignedIn(User))
+            @if (SignInManager.IsSignedIn(User)) // 로그인한 경우에만 삭제 수정가능하게
             {
-                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-sm btn-warning">수정</a>
                 <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-sm btn-danger">삭제</a>
-            }            
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-sm btn-warning">수정</a>
+            }
             <a asp-action="Index" class="btn btn-sm btn-success">리스트</a>
         </div>
     </div>

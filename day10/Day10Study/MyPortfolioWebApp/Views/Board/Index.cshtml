@@ -1,65 +1,108 @@
-﻿@model IEnumerable<MyPortfolioWebApp.Models.Board>
+﻿@inject SignInManager<CustomUser> SignInManager
+@inject UserManager<CustomUser> UserManager
+@model IEnumerable<MyPortfolioWebApp.Models.Board>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "게시판";
+    var startPage = ViewBag.StartPage as int? ?? 1;
+    var endPage = ViewBag.EndPage as int? ?? 1;
+    var page = ViewBag.Page as int? ?? 1;
+    var totalPage = ViewBag.TotalPage as int? ?? 1;
+    var search = ViewBag.Search as string ?? "";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Writer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contents)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReadCount)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Writer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contents)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReadCount)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<section class="section-header">
+    <div class="container section-title" data-aos="fade-up">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary">게시판 목록</h2>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a asp-action="Create" class="btn btn-success px-3 py-2 fw-semibold rounded-pill shadow-sm">
+                        <i class="bi bi-pencil-square me-1"></i> 글쓰기
+                    </a>
+                }
+
+                <form asp-action="Index" method="get" class="d-inline-block">
+                    <div class="input-group input-group-sm">
+                        <input type="text" id="search" name="search" class="form-control-sm" value="@search" />
+                        <button type="submit" class="btn btn-success">검색</button>
+                    </div>
+                </form>
+            </div>
+
+
+        @*<form asp-action="Index" method="get" class="mb-3">
+            <div class="input-group input-group-sm justify-content-end">
+                <input type="text" id="search" name="search" class="form-control-sm" value="@search" />
+                <button type="submit" class="btn btn-success">검색</button>
+            </div>
+        </form>*@
+
+        <div class="board-table" data-aos="fade-up" data-aos-delay="300">
+            <table class="table table-bordered table-hover align-middle text-center">
+                <thead class="table-bordered" style="background-color: cornflowerblue;">
+                    <tr>
+                        <th style="background-color: lightgray;">이메일</th>
+                        <th style="background-color: lightgray;">작성자</th>
+                        <th style="background-color: lightgray;">제목</th>
+                        <th style="background-color: lightgray;">내용</th>
+                        <th style="background-color: lightgray;">작성일</th>
+                        <th style="background-color: lightgray;">조회수</th>
+                        <th style="background-color: lightgray;">관리</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Writer)</td>
+                            <td class="text-start">@Html.DisplayFor(modelItem => item.Title)</td>
+                            <td class="text-start">@Html.DisplayFor(modelItem => item.Contents)</td>
+                            <td class="content-center">@Html.DisplayFor(modelItem => item.PostDate)</td>
+                            <td>@item.ReadCount</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">수정</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">상세</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">삭제</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-3">
+            <ul class="pagination pagination-sm justify-content-center">
+                @if (page > 1)
+                {
+                    <li class="page-item"><a href="?page=1&search=@search" class="page-link">≪</a></li>
+                    <li class="page-item"><a href="?page=@(page - 1)&search=@search" class="page-link">＜</a></li>
+                }
+
+                @for (int i = startPage; i <= endPage; i++)
+                {
+                    if (i == page)
+                    {
+                        <li class="page-item active"><a class="page-link" href="?page=@i&search=@search">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item"><a class="page-link" href="?page=@i&search=@search">@i</a></li>
+                    }
+                }
+
+                @if (page < totalPage)
+                {
+                    <li class="page-item"><a href="?page=@(page + 1)&search=@search" class="page-link">＞</a></li>
+                    <li class="page-item"><a href="?page=@totalPage&search=@search" class="page-link">≫</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+</section>
